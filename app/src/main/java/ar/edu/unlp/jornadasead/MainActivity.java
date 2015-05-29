@@ -7,22 +7,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener {
 
-    TextView welcome;
-    Button btnEntrar;
+    TextView welcome, salida;
+    Button btnEntrar, btnSalir;
+    EditText inpNombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnEntrar=(Button)findViewById(R.id.btnEntrar);
-        welcome=(TextView)findViewById(R.id.msjInicial);
+        btnEntrar = (Button)findViewById(R.id.btnEntrar);
+        welcome = (TextView)findViewById(R.id.msjInicial);
+        inpNombre = (EditText)findViewById(R.id.inpNombre);
+        salida = (TextView)findViewById(R.id.msjSalida);
+        btnSalir = (Button)findViewById(R.id.btnSalir);
 
         btnEntrar.setOnClickListener(this);
+        btnSalir.setOnClickListener(this);
+
+        btnEntrar.setOnLongClickListener(this);
+        btnSalir.setOnLongClickListener(this);
     }
 
     @Override
@@ -49,6 +58,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        String tmp = inpNombre.getText().toString();
+        if (!tmp.isEmpty()){
+            switch(v.getId()) {
+                case R.id.btnEntrar:
+                    salida.setText("Hola " + tmp);
+                    break;
+                case R.id.btnSalir:
+                    salida.setText("Chau " + tmp);
+                    break;
+            }
+        } else
+            salida.setText("Ingrese su nombre...");
+    }
 
+    @Override
+    public boolean onLongClick(View v) {
+        String tmp = inpNombre.getText().toString();
+        salida.setText("Solta " + tmp);
+
+        return false;
     }
 }
